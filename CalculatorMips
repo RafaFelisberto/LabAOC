@@ -1,0 +1,109 @@
+.data
+
+Message: .asciiz "Now press 1 to add, 2 to subtract, 3 to multiply, 4 to divise"
+Message1: .asciiz "Chose a number! = "
+breakline: .asciiz "\n"
+addition: .asciiz "Addition: "
+subtraction: .asciiz "Subtraction: "
+multiplication: .asciiz "Multiplication: "
+division: .asciiz "Division: "
+
+.text
+main:
+
+    li $v0,4
+    la $a0,Message1
+    syscall
+
+    li $v0,5
+    syscall
+    move $t0,$v0
+
+    li $v0,4
+    la $a0,Message1
+    syscall
+
+    li $v0,5
+    syscall
+    move $t1,$v0
+
+    li $v0,4
+    la $a0,breakline
+    syscall
+
+    li $v0,4
+    la $a0,Message
+    syscall
+
+    li $v0,4
+    la $a0,breakline
+    syscall
+
+    li $v0,5
+    syscall
+    move $t2,$v0
+
+    beq $t2,1,Addition
+    beq $t2,2,Subtraction
+    beq $t2,3,Multiplication
+    beq $t2,4,Division
+
+Addition:
+
+    li $v0,4
+    la $a0,addition
+    syscall
+
+    li $v0,4
+    la $a0,breakline
+    syscall
+
+    add $t3,$t0,$t1
+    move $a0,$t3
+
+    li $v0,1
+    syscall
+    j Exit
+
+Subtraction:
+
+    li $v0,4
+    la $a0,subtraction
+    syscall
+
+    sub $t3,$t0,$t1
+    move $a0,$t3
+
+    li $v0,1
+    syscall
+    j Exit
+
+Multiplication:
+
+    li $v0,4
+    la $a0,multiplication
+    syscall
+
+    mul $t3,$t0,$t1
+    move $a0,$t3
+
+    li $v0,1
+    syscall
+    j Exit
+
+Division:
+
+    li $v0,4
+    la $a0,division
+    syscall
+
+    div $t0,$t1
+    mflo $a0
+    li $v0,1
+    syscall
+
+
+Exit:
+
+    li $v0,10
+    syscall
