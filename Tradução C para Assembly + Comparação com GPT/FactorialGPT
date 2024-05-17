@@ -1,0 +1,39 @@
+    .data
+result: .asciiz "O fatorial de 10 é: "
+newline: .asciiz "\n"
+    .text
+    .globl main
+
+main:
+    # Inicialização de variáveis
+    li $t0, 10         # Número cujo fatorial será calculado (10)
+    li $t1, 1          # Variável para armazenar o fatorial, começa em 1
+    li $t2, 1          # Contador para o loop
+    
+calc_fatorial:
+    # Multiplica o fatorial atual pelo contador
+    mul $t1, $t1, $t2
+    
+    # Incrementa o contador
+    addi $t2, $t2, 1
+    
+    # Verifica se o contador alcançou o número
+    ble $t2, $t0, calc_fatorial
+    
+    # Impressão do resultado
+    li $v0, 4           # Código do syscall para imprimir string
+    la $a0, result      # Endereço da string a ser impressa
+    syscall
+
+    li $v0, 1           # Código do syscall para imprimir inteiro
+    move $a0, $t1       # Move o fatorial para o registrador de argumento
+    syscall
+
+    # Impressão de uma nova linha
+    li $v0, 4           # Código do syscall para imprimir string
+    la $a0, newline     # Endereço da string a ser impressa
+    syscall
+
+    # Encerramento do programa
+    li $v0, 10          # Código do syscall para sair
+    syscall
